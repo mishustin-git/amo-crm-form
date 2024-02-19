@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестовое задание Мишустин В. А.</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body onLoad="getSecs()">
+    <section id="form">
+        <div class="container">
+            <h1 class="form-caption">
+                Оставить заявку
+            </h1>
+            <div class="alert alert-success" role="alert" style="display: none;" id="error-false">
+                Заявка успешно оставлена
+            </div>
+            <div class="alert alert-danger" role="alert" style="display: none;" id="error-true">
+                Заявка не отправлена
+            </div>
+            <form action="form-processing.php" method="post">
+                <div class="form-group">
+                    <label for="name">Имя</label>
+                    <input type="text" class="form-control" placeholder="Вводите ваше Имя" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" class="form-control" placeholder="Вводите ваш e-mail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон</label>
+                    <input type="text" class="form-control" placeholder="Введите ваш номер телефона" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="cost">Цена</label>
+                    <input type="text" class="form-control" placeholder="Введите цену" name="cost" required>
+                </div>
+                <input type="hidden" name="hidden" class="form-hidden" id="timer-counter">
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        </div>
+    </section>
+    <script>
+        startdate = new Date();
+        clockStart = startdate.getTime();
+        function initStopwatch() {
+          var thisTime = new Date();
+          return (thisTime.getTime() - clockStart)/1000;
+        }
+        function getSecs() {
+          var tSecs = Math.round(initStopwatch());
+          var iSecs = tSecs % 60;
+          var iMins = Math.round((tSecs-30)/60);
+          var sSecs ="" + ((iSecs > 9) ? iSecs : "0" + iSecs);
+          var sMins ="" + ((iMins > 9) ? iMins : "0" + iMins);
+          document.getElementById("timer-counter").value = sMins+":"+sSecs;
+          setTimeout('getSecs()', 1000);
+        }
+        let url = new URL(window.location.href);
+        if (url.searchParams.get('error') == 0){
+            document.getElementById("error-false").style.display = 'block';
+        }
+        else
+        {
+            if (url.searchParams.get('error') == 1){
+                document.getElementById("error-true").style.display = 'block';
+            }
+        }
+        </script>
+</body>
+</html>
